@@ -1,0 +1,106 @@
+# UX metadata for the retail scheduling pack.
+# The Solver UX does not install a visualization from this file.
+# It discovers the problem type from the manifest and selects a specialized
+# solution component from its code registry. These panels are the views the
+# solver tutorial asks a retail scheduling screen to show.
+problem_type: retail_rota
+solution_component: rostering
+inputs:
+  - id: employees
+    label: Employees
+    view: table
+    source: employees
+    columns:
+      - id
+      - skills
+      - max_hours
+      - acceptable_shift_ids
+    diagnostics:
+      - Duplicate ids
+      - Missing skills
+      - Missing bounds
+      - Malformed availability
+  - id: shifts
+    label: Shifts
+    view: timeline
+    source: shifts
+    group_by: day
+    columns:
+      - id
+      - day
+      - duration_hours
+      - required_skill
+      - required_staff
+    diagnostics:
+      - Required skill
+      - Required staff
+      - Duration
+      - Uncovered demand
+  - id: eligibility
+    label: Eligibility
+    view: matrix
+    rows: employees
+    columns: shifts
+    diagnostics:
+      - Skill
+      - Availability
+      - Overlap
+      - Data
+  - id: capacity
+    label: Capacity
+    view: table
+    demand: shifts.duration_hours
+    supply: employees.max_hours
+    group_by:
+      - required_skill
+    diagnostics:
+      - The field and record that create a shortfall
+solution:
+  - id: calendar
+    label: Calendar
+    view: grid
+    rows: employees
+    columns:
+      - day
+      - shift
+  - id: coverage
+    label: Coverage
+    view: badges
+    assigned: placements
+    required: required_staff
+  - id: hours
+    label: Hours
+    view: summary
+    fields:
+      - assigned
+      - maximum
+      - remaining
+  - id: evidence
+    label: Placement evidence
+    fields:
+      - skill
+      - availability
+  - id: violations
+    label: Violations
+    key: affected_groups
+  - id: certificate
+    label: Certificate
+    bands:
+      - eligibility
+      - hard
+      - soft
+      - objective
+  - id: technical
+    label: Technical details
+    fields:
+      - job_id
+      - solver_version
+      - engine
+      - timings
+      - raw_response
+fallback:
+  label: Generic placement table
+  when: specialized solution component is not installed
+  shows:
+    - placements
+    - certificate

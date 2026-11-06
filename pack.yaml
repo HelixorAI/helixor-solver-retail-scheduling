@@ -1,0 +1,15 @@
+id: retail_scheduling
+version: "1.0"
+display_name: "Retail Scheduling"
+description: "Retail employee scheduling manifests and UX metadata"
+modules: [solvers, ui]
+manifests:
+  - manifests/retail_rota.yaml
+solver_policies: [rostering]
+ui_surfaces:
+  - ui/retail_rota.views.yaml
+datasets:
+  - problem_type: retail_rota
+    uri: datasets/small_store.demo.json
+    scenario: small_store
+    label: Small store

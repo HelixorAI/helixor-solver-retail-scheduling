@@ -1,0 +1,32 @@
+{
+  "employees": [
+    {
+      "id": "alice",
+      "skills": ["sales", "key_holder"],
+      "max_hours": 16,
+      "acceptable_shift_ids": ["mon-open"]
+    },
+    {
+      "id": "ben",
+      "skills": ["sales"],
+      "max_hours": 16,
+      "acceptable_shift_ids": ["mon-close"]
+    }
+  ],
+  "shifts": [
+    {
+      "id": "mon-open",
+      "day": 0,
+      "duration_hours": 8,
+      "required_skill": "key_holder",
+      "required_staff": 1
+    },
+    {
+      "id": "mon-close",
+      "day": 0,
+      "duration_hours": 8,
+      "required_skill": "sales",
+      "required_staff": 1
+    }
+  ]
+}
